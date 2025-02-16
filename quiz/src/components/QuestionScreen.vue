@@ -6,6 +6,7 @@ import Right from "./icons/IconRight.vue";
 import Questions from "../utils/Questions.json";
 
 const selectedOption = ref(null);
+const currentQuestionIndex = ref(0);
 
 const selectAnswer = (option) => {
   selectedOption.value = option; // Store selected answer
@@ -20,8 +21,6 @@ const selectAnswer = (option) => {
     }
   }, 1000); // Delay before moving to next question
 };
-
-const correctOption = ref(Questions.answer);
 </script>
 
 <template>
@@ -47,49 +46,68 @@ const correctOption = ref(Questions.answer);
           v-for="(option, index) in Questions[currentQuestionIndex].options"
           :key="index"
           @click="selectAnswer(option)"
-          :class="['w-full h-12 rounded-md flex items-center gap-4 px-5 cursor-pointer hover:bg-zinc-300 transition', selectedOption &&
-              option === Questions[currentQuestionIndex].answer ? option === Questions[currentQuestionIndex].answer
-      ? 'border-green-500 bg-green-700/50'
-      : 'border-red-500 bg-red-700/50'
-    : 'border-gray-500' "]"
+          :class="[
+            'w-full h-12 rounded-md flex justify-between items-center gap-4 px-5 cursor-pointer hover:bg-zinc-300 transition border-2',
+            selectedOption
+              ? option === Questions[currentQuestionIndex].answer
+                ? 'border-green-500 bg-green-700/50' // ✅ Correct: Green border
+                : selectedOption === option
+                ? 'border-red-500 bg-red-700/50' // ❌ Only selected wrong answer turns red
+                : 'border-gray-500' // 🟡 Other options stay gray
+              : 'border-gray-500', // Default state
+          ]"
         >
-          <p class="font-bold">{{ String.fromCharCode(65 + index) }}.</p>
-          <p class="font-semibold">{{ option }}</p>
+          <div class="flex gap-4">
+            <p class="font-bold">{{ String.fromCharCode(65 + index) }}.</p>
+            <p class="font-semibold">{{ option }}</p>
+          </div>
           <Right
+            width="20"
+            height="20"
             v-if="
               selectedOption &&
               option === Questions[currentQuestionIndex].answer
             "
           />
           <Wrong
+            width="20"
+            height="20"
             v-if="
-              selectedOption &&
+              selectedOption === option && // ⬅️ Only show for selected option
               option !== Questions[currentQuestionIndex].answer
             "
           />
         </div>
-        <!-- <div
-          class="w-full h-14 rounded-md flex justify-between items-center gap-4 px-5 bg-red-500/30 border-red-500 border-2"
+        <div
+          v-if="
+            selectedOption &&
+            selectedOption !== Questions[currentQuestionIndex].answer
+          "
+          class="flex gap-4 border border-red-500 bg-red-700/50 rounded-md p-5 text-red-900"
         >
-          <div class="flex gap-4 items-center">
-            <p class="font-bold">A.</p>
-            <p class="font-semibold">Lorem</p>
+          <Wrong width="20" height="20" />
+          <div>
+            <p class="font-bold">Think again!</p>
+            <p class="text-sm">
+              Lorem ipsum dolor, sit amet consectetur adipisicing.
+            </p>
           </div>
-          <Wrong />
         </div>
         <div
-          class="w-full h-14 rounded-md flex justify-between items-center gap-4 px-5 bg-green-500/30 border-green-500 border-2"
+          v-if="
+            selectedOption &&
+            selectedOption === Questions[currentQuestionIndex].answer
+          "
+          class="flex gap-4 border border-green-500 bg-green-700/50 rounded-md p-5 text-green-900"
         >
-          <div class="flex gap-4 items-center">
-            <p class="font-bold">A.</p>
-            <p class="font-semibold">Lorem</p>
+          <Right width="20" height="20" />
+          <div>
+            <p class="font-bold">Right!</p>
+            <p class="text-sm">
+              Lorem ipsum dolor, sit amet consectetur adipisicing.
+            </p>
           </div>
-          <Right width="16" height="16" />
         </div>
-        <div class="w-full border h-12 rounded-md flex items-center gap-4 px-5">
-          <p class="font-bold">A.</p>
-          <p class="font-semibold">Lorem</p>
-        </div> -->
       </div>
     </div>
   </div>
