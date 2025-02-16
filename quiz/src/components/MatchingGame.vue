@@ -1,6 +1,7 @@
 <script setup>
 import IconRepeat from "@/components/icons/IconRepeat.vue";
 import Navigations from "@/components/Navigations.vue";
+import MatchQuestions from "@/utils/MatchQuestions.json";
 
 // defineProps({
 //   step: Number,
@@ -23,12 +24,18 @@ const handleBack = () => {
 
 <template>
   <div class="max-w-sm w-11/12 mx-auto bg-zinc-100">
-    <!-- <Navigations :prevStep="prevStep" /> -->
-    <Navigations @back="handleBack" />
+    <Navigations @prevStep="prevStep" />
     <div class="w-full">
       <p class="text-xl font-bold text-center">Match the Boxes</p>
       <div class="grid grid-cols-2 gap-4 pb-2">
         <div
+          v-for="question in MatchQuestions"
+          :key="question.id"
+          class="w-full h-20 rounded-md bg-zinc-300 text-zinc-400 flex justify-center items-center text-center p-2 text-sm"
+        >
+          {{ question.question }}
+        </div>
+        <!-- <div
           class="w-full h-20 rounded-md bg-zinc-300 text-zinc-400 flex justify-center items-center"
         >
           Drag & Drop
@@ -44,15 +51,10 @@ const handleBack = () => {
           Drag & Drop
         </div>
         <div
-          class="w-full h-20 rounded-md bg-zinc-300 text-zinc-400 flex justify-center items-center"
+          class="w-1/2 col-span-2 h-20 rounded-md bg-zinc-300 place-self-center text-zinc-400 flex justify-center items-center"
         >
           Drag & Drop
-        </div>
-        <div
-          class="w-full h-20 rounded-md bg-zinc-300 place-self-center text-zinc-400 flex justify-center items-center"
-        >
-          Drag & Drop
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -78,7 +80,7 @@ const handleBack = () => {
           Drag & Drop
         </div>
         <div
-          class="w-full h-20 rounded-md bg-zinc-300 text-zinc-400 flex justify-center items-center"
+          class="w-full place-self-center h-20 rounded-md bg-zinc-300 text-zinc-400 flex justify-center items-center"
         >
           Drag & Drop
         </div>
