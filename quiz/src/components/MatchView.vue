@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import IconRepeat from "@/components/icons/IconRepeat.vue";
 import Navigations from "@/components/Navigations.vue";
+
+defineProps({
+  step: Number,
+});
+const emit = defineEmits(["update:step"]);
 </script>
 
 <template>

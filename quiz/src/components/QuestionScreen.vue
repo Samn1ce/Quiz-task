@@ -5,6 +5,15 @@ import Wrong from "./icons/IconWrong.vue";
 import Right from "./icons/IconRight.vue";
 import Questions from "../utils/Questions.json";
 
+defineProps({
+  step: Number, // Receive `step` as a prop
+});
+const emit = defineEmits(["update:step"]); // Define event emitter
+
+const nextStep = () => {
+  emit("update:step", 2); // Update `step` to 2 in the parent
+};
+
 const selectedOption = ref(null);
 const currentQuestionIndex = ref(0);
 
@@ -18,6 +27,7 @@ const selectAnswer = (option) => {
       currentQuestionIndex.value++;
     } else {
       alert("Quiz completed! 🎉");
+      nextStep();
     }
   }, 1000); // Delay before moving to next question
 };
