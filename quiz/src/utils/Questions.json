@@ -1,0 +1,32 @@
+[
+  {
+    "question": "What is the capital of France?",
+    "options": ["Berlin", "Madrid", "Paris", "Rome"],
+    "answer": "Paris"
+  },
+  {
+    "question": "Which programming language is known as the backbone of web development?",
+    "options": ["Python", "Java", "JavaScript", "C++"],
+    "answer": "JavaScript"
+  },
+  {
+    "question": "What is the largest planet in our solar system?",
+    "options": ["Earth", "Mars", "Jupiter", "Saturn"],
+    "answer": "Jupiter"
+  },
+  {
+    "question": "Who wrote 'To Kill a Mockingbird'?",
+    "options": ["Mark Twain", "Harper Lee", "J.K. Rowling", "Ernest Hemingway"],
+    "answer": "Harper Lee"
+  },
+  {
+    "question": "What does HTTP stand for?",
+    "options": [
+      "HyperText Transfer Protocol",
+      "High Transfer Text Processing",
+      "Hyperlink Transmission Protocol",
+      "HyperText Translation Process"
+    ],
+    "answer": "HyperText Transfer Protocol"
+  }
+]
