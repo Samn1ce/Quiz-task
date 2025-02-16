@@ -1,16 +1,30 @@
-<script setup lang="ts">
+<script setup>
 import IconRepeat from "@/components/icons/IconRepeat.vue";
 import Navigations from "@/components/Navigations.vue";
 
-defineProps({
-  step: Number,
-});
+// defineProps({
+//   step: Number,
+// });
+// const emit = defineEmits(["update:step"]);
+
+// const prevStep = () => {
+//   if (step > 1) {
+//     emit("update:step", step - 1); // Correct way to emit and update step
+//   }
+// };
+
 const emit = defineEmits(["update:step"]);
+
+const handleBack = () => {
+  // Go back to previous step (Quiz)
+  emit("update:step", 1);
+};
 </script>
 
 <template>
   <div class="max-w-sm w-11/12 mx-auto bg-zinc-100">
-    <Navigations />
+    <!-- <Navigations :prevStep="prevStep" /> -->
+    <Navigations @back="handleBack" />
     <div class="w-full">
       <p class="text-xl font-bold text-center">Match the Boxes</p>
       <div class="grid grid-cols-2 gap-4 pb-2">

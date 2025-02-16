@@ -1,11 +1,18 @@
-<script setup lang="ts">
+<script setup>
 import Back from "./icons/IconBack.vue";
 import Right from "./icons/IconRight.vue";
+
+defineProps({
+  prevStep: Function,
+});
 </script>
 
 <template>
   <div class="flex justify-between items-center py-5 mx-auto">
-    <div class="size-8 rounded-md border flex justify-center items-center">
+    <div
+      @click="prevStep"
+      class="size-8 rounded-md border flex justify-center items-center cursor-pointer"
+    >
       <Back width="20" height="20" fill="#59168b" />
     </div>
     <h1 class="font-bold">Course Preview</h1>

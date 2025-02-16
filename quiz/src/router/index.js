@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import MainView from "../views/MainView.vue";
-import MatchView from "@/components/MatchView.vue";
+import MatchView from "@/components/MatchingGame.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

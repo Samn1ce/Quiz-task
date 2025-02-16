@@ -1,6 +1,6 @@
 <script setup>
 import MainView from "./views/MainView.vue";
-import MatchView from "./components/MatchView.vue";
+import MatchView from "./components/MatchingGame.vue";
 </script>
 
 <template>
