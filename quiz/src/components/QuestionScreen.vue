@@ -19,13 +19,14 @@ const currentQuestionIndex = ref(0);
 const currentPoints = ref(0);
 
 const updateScore = () => {
-  if (selectedOption.value === Questions[currentQuestionIndex].answer) {
+  if (selectedOption.value === Questions[currentQuestionIndex.value].answer) {
     currentPoints.value += 10;
   }
 };
 
 const selectAnswer = (option) => {
   selectedOption.value = option; // Store selected answer
+  updateScore();
   console.log("Selected Answer:", option);
 
   setTimeout(() => {
@@ -33,7 +34,7 @@ const selectAnswer = (option) => {
       selectedOption.value = null; // Reset for next question
       currentQuestionIndex.value++;
     } else {
-      alert("Quiz completed! 🎉");
+      alert("Quiz completed! 🎉", "/n Points:", currentPoints);
       nextStep();
     }
   }, 1000); // Delay before moving to next question
