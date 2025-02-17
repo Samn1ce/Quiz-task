@@ -1,63 +1,102 @@
 <script setup>
+import { ref } from "vue";
+import { useDraggable } from "@vueuse/core";
 import IconRepeat from "@/components/icons/IconRepeat.vue";
 import Navigations from "@/components/Navigations.vue";
 import MatchQuestions from "@/utils/MatchQuestions.json";
 
-// defineProps({
-//   step: Number,
-// });
-// const emit = defineEmits(["update:step"]);
-
-// const prevStep = () => {
-//   if (step > 1) {
-//     emit("update:step", step - 1); // Correct way to emit and update step
-//   }
-// };
-
 const emit = defineEmits(["update:step"]);
 
-const handleBack = () => {
-  // Go back to previous step (Quiz)
-  emit("update:step", 1);
+// State to track dropped answers
+const droppedAnswers = ref({}); // { questionId: answer }
+const showResults = ref(false); // Show right/wrong feedback
+
+// Store answers (shuffled)
+const answers = ref(
+  [...MatchQuestions.map((q) => q.answer)].sort(() => Math.random() - 0.5)
+);
+
+// Track currently dragged item
+const draggedItem = ref(null);
+
+// Setup draggable items
+const draggableItems = ref(
+  answers.value.map((answer) => ({
+    answer,
+    ref: ref(null),
+  }))
+);
+
+// Handle drag start
+const onDragStart = (answer) => {
+  draggedItem.value = answer;
+};
+
+// Handle drop
+const onDrop = (question) => {
+  if (draggedItem.value) {
+    droppedAnswers.value[question.id] = draggedItem.value;
+
+    // Remove the dropped answer from the draggable items
+    draggableItems.value = draggableItems.value.filter(
+      (item) => item.answer !== draggedItem.value
+    );
+
+    draggedItem.value = null; // Clear dragged item
+  }
+};
+
+// Handle "Continue" button click
+const checkAnswers = () => {
+  showResults.value = true;
+};
+
+// Reset Game
+const resetGame = () => {
+  droppedAnswers.value = {};
+  showResults.value = false;
+
+  // Restore all answers
+  answers.value = [...MatchQuestions.map((q) => q.answer)].sort(
+    () => Math.random() - 0.5
+  );
+
+  // Restore draggable items
+  draggableItems.value = answers.value.map((answer) => ({
+    answer,
+    ref: ref(null),
+  }));
 };
 </script>
 
 <template>
   <div class="max-w-sm w-11/12 mx-auto bg-zinc-100">
-    <Navigations @prevStep="prevStep" />
+    <Navigations @prevStep="handleBack" />
     <div class="w-full">
       <p class="text-xl font-bold text-center">Match the Boxes</p>
       <div class="grid grid-cols-2 gap-4 pb-2">
         <div
           v-for="question in MatchQuestions"
           :key="question.id"
-          class="w-full h-20 rounded-md bg-zinc-300 text-zinc-400 flex justify-center items-center text-center p-2 text-sm"
+          class="w-full h-20 rounded-md flex justify-center items-center text-center p-2 text-sm transition-all border border-zinc-400"
+          :class="{
+            'bg-green-300':
+              showResults && droppedAnswers[question.id] === question.answer,
+            'bg-red-300':
+              showResults && droppedAnswers[question.id] !== question.answer,
+            'bg-zinc-900 text-zinc-200': droppedAnswers[question.id],
+            'bg-zinc-300': !showResults,
+          }"
+          draggable="true"
+          @dragover.prevent
+          @drop="onDrop(question)"
         >
-          {{ question.question }}
+          {{ droppedAnswers[question.id] || question.question }}
         </div>
-        <!-- <div
-          class="w-full h-20 rounded-md bg-zinc-300 text-zinc-400 flex justify-center items-center"
-        >
-          Drag & Drop
-        </div>
-        <div
-          class="w-full h-20 rounded-md bg-zinc-300 text-zinc-400 flex justify-center items-center"
-        >
-          Drag & Drop
-        </div>
-        <div
-          class="w-full h-20 rounded-md bg-zinc-300 text-zinc-400 flex justify-center items-center"
-        >
-          Drag & Drop
-        </div>
-        <div
-          class="w-1/2 col-span-2 h-20 rounded-md bg-zinc-300 place-self-center text-zinc-400 flex justify-center items-center"
-        >
-          Drag & Drop
-        </div> -->
       </div>
     </div>
   </div>
+
   <div class="bg-white w-full rounded-t-2xl max-w-sm mx-auto">
     <div class="w-11/12 mx-auto flex flex-col gap-2">
       <p class="text-zinc-800 text-center font-bold pt-2">
@@ -65,37 +104,23 @@ const handleBack = () => {
       </p>
       <div class="grid grid-cols-3 gap-4">
         <div
-          class="w-full h-20 rounded-md bg-zinc-300 text-zinc-400 flex justify-center items-center"
+          v-for="item in draggableItems"
+          :key="item.answer"
+          ref="item.ref"
+          class="w-full h-20 rounded-md bg-zinc-900 text-zinc-400 flex justify-center items-center cursor-grab transition-all p-2 text-center"
+          draggable="true"
+          @dragstart="onDragStart(item.answer)"
         >
-          Drag & Drop
-        </div>
-        <div
-          class="w-full h-20 rounded-md bg-zinc-300 text-zinc-400 flex justify-center items-center"
-        >
-          Drag & Drop
-        </div>
-        <div
-          class="w-full h-20 rounded-md bg-zinc-300 text-zinc-400 flex justify-center items-center"
-        >
-          Drag & Drop
-        </div>
-        <div
-          class="w-full place-self-center h-20 rounded-md bg-zinc-300 text-zinc-400 flex justify-center items-center"
-        >
-          Drag & Drop
-        </div>
-        <div
-          class="w-full h-20 rounded-md bg-zinc-300 place-self-center text-zinc-400 flex justify-center items-center"
-        >
-          Drag & Drop
+          {{ item.answer }}
         </div>
       </div>
       <div class="mt-2 flex justify-center items-center gap-4">
-        <button class="border p-2 rounded-xl">
+        <button class="border p-2 rounded-xl" @click="resetGame">
           <IconRepeat width="30" height="30" />
         </button>
         <button
           class="bg-purple-800 p-3 w-60 rounded-2xl text-zinc-200 font-semibold"
+          @click="checkAnswers"
         >
           Continue
         </button>
