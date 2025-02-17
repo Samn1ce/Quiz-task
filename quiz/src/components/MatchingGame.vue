@@ -18,6 +18,7 @@ const answers = ref(
 
 // Track currently dragged item
 const draggedItem = ref(null);
+const draggedFromQuestion = ref(null); // Track where the answer came from
 
 // Setup draggable items
 const draggableItems = ref(
@@ -28,21 +29,24 @@ const draggableItems = ref(
 );
 
 // Handle drag start
-const onDragStart = (answer) => {
+const onDragStart = (answer, questionId = null) => {
   draggedItem.value = answer;
+  draggedFromQuestion.value = questionId; // Save source if dragging from a question
 };
 
 // Handle drop
 const onDrop = (question) => {
   if (draggedItem.value) {
+    // Remove it from the previous question (if any)
+    if (draggedFromQuestion.value !== null) {
+      delete droppedAnswers.value[draggedFromQuestion.value];
+    }
+
+    // Assign it to the new question
     droppedAnswers.value[question.id] = draggedItem.value;
 
-    // Remove the dropped answer from the draggable items
-    draggableItems.value = draggableItems.value.filter(
-      (item) => item.answer !== draggedItem.value
-    );
-
     draggedItem.value = null; // Clear dragged item
+    draggedFromQuestion.value = null;
   }
 };
 
@@ -78,7 +82,7 @@ const resetGame = () => {
         <div
           v-for="question in MatchQuestions"
           :key="question.id"
-          class="w-full h-20 rounded-md flex justify-center items-center text-center p-2 text-sm transition-all border border-zinc-400"
+          class="w-full h-20 rounded-md flex justify-center items-center text-center p-2 text-sm transition-all border border-zinc-400 cursor-pointer"
           :class="{
             'bg-green-300':
               showResults && droppedAnswers[question.id] === question.answer,
@@ -88,6 +92,7 @@ const resetGame = () => {
             'bg-zinc-300': !showResults,
           }"
           draggable="true"
+          @dragstart="onDragStart(droppedAnswers[question.id], question.id)"
           @dragover.prevent
           @drop="onDrop(question)"
         >
