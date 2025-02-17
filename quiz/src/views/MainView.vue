@@ -3,10 +3,6 @@ import { ref } from "vue";
 import QuestionScreen from "@/components/QuestionScreen.vue";
 import MatchingGame from "@/components/MatchingGame.vue";
 
-// defineProps({
-//   step: Number,
-// });
-
 const step = ref(1);
 
 const updateStep = (newStep) => {

@@ -3,6 +3,7 @@ import Back from "./icons/IconBack.vue";
 import Right from "./icons/IconRight.vue";
 
 defineProps({
+  step: Number,
   prevStep: Function,
 });
 </script>

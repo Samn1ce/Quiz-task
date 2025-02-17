@@ -6,6 +6,5 @@ import MatchView from "./components/MatchingGame.vue";
 <template>
   <div class="bg-zinc-100">
     <MainView />
-    <!-- <MatchView /> -->
   </div>
 </template>

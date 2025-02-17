@@ -6,9 +6,9 @@ import Right from "./icons/IconRight.vue";
 import Questions from "../utils/Questions.json";
 
 defineProps({
-  step: Number, // Receive `step` as a prop
+  step: Number,
 });
-const emit = defineEmits(["update:step"]); // Define event emitter
+const emit = defineEmits(["update:step"]);
 
 const nextStep = () => {
   emit("update:step", 2); // Update `step` to 2 in the parent
@@ -27,14 +27,13 @@ const updateScore = () => {
 const selectAnswer = (option) => {
   selectedOption.value = option; // Store selected answer
   updateScore();
-  console.log("Selected Answer:", option);
 
   setTimeout(() => {
     if (currentQuestionIndex.value < Questions.length - 1) {
       selectedOption.value = null; // Reset for next question
       currentQuestionIndex.value++;
     } else {
-      alert("Quiz completed! 🎉", "/n Points:", currentPoints);
+      alert("Quiz completed! 🎉 Points:", currentPoints);
       nextStep();
     }
   }, 1000); // Delay before moving to next question

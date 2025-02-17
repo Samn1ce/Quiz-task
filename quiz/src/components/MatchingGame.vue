@@ -5,6 +5,9 @@ import IconRepeat from "@/components/icons/IconRepeat.vue";
 import Navigations from "@/components/Navigations.vue";
 import MatchQuestions from "@/utils/MatchQuestions.json";
 
+defineProps({
+  step: Number, // Receive `step` as a prop
+});
 const emit = defineEmits(["update:step"]);
 
 // State to track dropped answers
@@ -69,12 +72,18 @@ const resetGame = () => {
 
   draggableItems.value = [...answers.value];
 };
+
+const prevStep = () => {
+  if (step > 1) {
+    emit("update:step", step - 1);
+  }
+};
 </script>
 
 <template>
   <div class="flex flex-col h-screen">
     <div class="max-w-sm w-11/12 mx-auto bg-zinc-100">
-      <Navigations @prevStep="handleBack" />
+      <Navigations :step="step" :prevStep="prevStep" />
       <div class="w-full">
         <p class="text-xl font-bold text-center">Match the Boxes</p>
         <div class="grid grid-cols-2 justify-items-center gap-4 pb-2">
