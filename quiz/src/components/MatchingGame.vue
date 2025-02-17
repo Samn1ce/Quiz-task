@@ -72,7 +72,7 @@ const resetGame = () => {
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col h-screen">
     <div class="max-w-sm w-11/12 mx-auto bg-zinc-100">
       <Navigations @prevStep="handleBack" />
       <div class="w-full">
@@ -108,7 +108,7 @@ const resetGame = () => {
       </div>
     </div>
 
-    <div class="bg-white w-full h-[43vh] flex-grow rounded-t-2xl mx-auto py-2">
+    <div class="bg-white w-full flex-grow rounded-t-2xl mx-auto py-2">
       <div
         class="max-w-sm h-full w-11/12 mx-auto flex flex-col justify-between gap-2"
       >
