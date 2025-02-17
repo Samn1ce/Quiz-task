@@ -88,7 +88,8 @@ const resetGame = () => {
               showResults && droppedAnswers[question.id] === question.answer,
             'bg-red-300':
               showResults && droppedAnswers[question.id] !== question.answer,
-            'bg-zinc-900 text-zinc-200': droppedAnswers[question.id],
+            'bg-zinc-900 text-zinc-200':
+              !showResults && droppedAnswers[question.id],
             'bg-zinc-300': !showResults,
           }"
           draggable="true"
