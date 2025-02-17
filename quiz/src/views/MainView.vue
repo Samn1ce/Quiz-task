@@ -15,7 +15,7 @@ const updateStep = (newStep) => {
 </script>
 
 <template>
-  <div class="max-w-sm h-screen mx-auto bg-zinc-100">
+  <div class="h-screen mx-auto bg-zinc-100">
     <QuestionScreen v-if="step === 1" :step="step" @update:step="updateStep" />
     <MatchingGame v-if="step === 2" :step="step" @update:step="updateStep" />
   </div>

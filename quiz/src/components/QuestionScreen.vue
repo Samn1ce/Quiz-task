@@ -34,7 +34,7 @@ const selectAnswer = (option) => {
 </script>
 
 <template>
-  <div class="mx-auto w-11/12 py-5">
+  <div class="mx-auto max-w-sm w-11/12 py-5">
     <div
       class="size-10 rounded-full flex justify-center items-center bg-purple-500/50"
     >
