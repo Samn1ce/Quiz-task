@@ -95,6 +95,8 @@ const resetGame = () => {
             }"
             aria-disabled="true"
             :draggable="!showResults"
+            @copy.prevent
+            @cut.prevent
             @dragstart="
               showResults
                 ? null
@@ -126,6 +128,8 @@ const resetGame = () => {
             class="w-full h-20 rounded-md bg-zinc-900 text-zinc-400 flex justify-center items-center cursor-grab transition-all p-2 text-center"
             aria-disabled="true"
             draggable="true"
+            @copy.prevent
+            @cut.prevent
             @dragstart="onDragStart(item)"
           >
             {{ item.answer }}
