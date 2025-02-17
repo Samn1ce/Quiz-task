@@ -83,8 +83,6 @@ const resetGame = () => {
             :key="question.id"
             class="w-full h-20 rounded-md flex justify-center items-center text-center p-2 text-sm transition-all border border-zinc-400 cursor-pointer"
             :class="{
-              // 'place-self-center col-span-2': index === answers.length - 1,
-              // 'col-span-1 w-full': index !== answers.length - 1,
               'bg-green-300':
                 showResults &&
                 droppedAnswers[question.id]?.answer === question.answer,
