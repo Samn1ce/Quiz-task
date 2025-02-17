@@ -77,12 +77,14 @@ const resetGame = () => {
       <Navigations @prevStep="handleBack" />
       <div class="w-full">
         <p class="text-xl font-bold text-center">Match the Boxes</p>
-        <div class="grid grid-cols-2 gap-4 pb-2">
+        <div class="grid grid-cols-2 justify-items-center gap-4 pb-2">
           <div
-            v-for="question in MatchQuestions"
+            v-for="(question, index) in MatchQuestions"
             :key="question.id"
             class="w-full h-20 rounded-md flex justify-center items-center text-center p-2 text-sm transition-all border border-zinc-400 cursor-pointer"
             :class="{
+              // 'place-self-center col-span-2': index === answers.length - 1,
+              // 'col-span-1 w-full': index !== answers.length - 1,
               'bg-green-300':
                 showResults &&
                 droppedAnswers[question.id]?.answer === question.answer,
@@ -112,13 +114,15 @@ const resetGame = () => {
       <div
         class="max-w-sm h-full w-11/12 mx-auto flex flex-col justify-between gap-2"
       >
-        <p class="text-zinc-800 text-center font-bold pt-2">
+        <p class="text-zinc-800 text-center font-bold">
           Drag the Correct box to match the Question
         </p>
 
-        <div class="grid grid-cols-3 gap-4">
+        <div
+          class="grid grid-cols-3 gap-4 place-items-center justify-items-center"
+        >
           <div
-            v-for="item in answers"
+            v-for="(item, index) in answers"
             :key="item.id"
             class="w-full h-20 rounded-md bg-zinc-900 text-zinc-400 flex justify-center items-center cursor-grab transition-all p-2 text-center"
             draggable="true"
