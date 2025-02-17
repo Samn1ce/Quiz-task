@@ -7,7 +7,7 @@ import MatchingGame from "@/components/MatchingGame.vue";
 //   step: Number,
 // });
 
-const step = ref(2);
+const step = ref(1);
 
 const updateStep = (newStep) => {
   step.value = newStep; // ✅ Update step correctly when emitted
