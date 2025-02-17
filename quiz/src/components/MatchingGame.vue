@@ -8,7 +8,7 @@ import MatchQuestions from "@/utils/MatchQuestions.json";
 const emit = defineEmits(["update:step"]);
 
 // State to track dropped answers
-const droppedAnswers = ref({}); // { questionId: { id, answer } }
+const droppedAnswers = ref({});
 const showResults = ref(false);
 
 // Assign unique IDs to answers and shuffle
@@ -52,7 +52,7 @@ const onDrop = (question) => {
   }
 };
 
-// Handle "Continue" button click
+// Handle "Continue" button
 const checkAnswers = () => {
   showResults.value = true;
 };
@@ -93,6 +93,7 @@ const resetGame = () => {
                 !showResults && droppedAnswers[question.id],
               'bg-zinc-300': !showResults,
             }"
+            aria-disabled="true"
             :draggable="!showResults"
             @dragstart="
               showResults
@@ -123,6 +124,7 @@ const resetGame = () => {
             v-for="(item, index) in answers"
             :key="item.id"
             class="w-full h-20 rounded-md bg-zinc-900 text-zinc-400 flex justify-center items-center cursor-grab transition-all p-2 text-center"
+            aria-disabled="true"
             draggable="true"
             @dragstart="onDragStart(item)"
           >
