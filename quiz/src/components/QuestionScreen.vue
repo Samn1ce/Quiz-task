@@ -16,6 +16,13 @@ const nextStep = () => {
 
 const selectedOption = ref(null);
 const currentQuestionIndex = ref(0);
+const currentPoints = ref(0);
+
+const updateScore = () => {
+  if (selectedOption.value === Questions[currentQuestionIndex].answer) {
+    currentPoints.value += 10;
+  }
+};
 
 const selectAnswer = (option) => {
   selectedOption.value = option; // Store selected answer
@@ -44,7 +51,7 @@ const selectAnswer = (option) => {
       class="w-full h-14 bg-purple-900 rounded-md flex justify-between items-center text-zinc-100 px-5 mt-8 mb-5"
     >
       <p class="font-semibold">Goal: 30 points</p>
-      <p>Current Points: 30</p>
+      <p>Current Points: {{ currentPoints }}</p>
     </div>
     <div v-if="Questions.length > 0">
       <p class="font-semibold">
@@ -60,11 +67,11 @@ const selectAnswer = (option) => {
             'w-full h-12 rounded-md flex justify-between items-center gap-4 px-5 cursor-pointer hover:bg-zinc-300 transition border-2',
             selectedOption
               ? option === Questions[currentQuestionIndex].answer
-                ? 'border-green-500 bg-green-700/50' // ✅ Correct: Green border
+                ? 'border-green-500 bg-green-700/50'
                 : selectedOption === option
-                ? 'border-red-500 bg-red-700/50' // ❌ Only selected wrong answer turns red
-                : 'border-gray-500' // 🟡 Other options stay gray
-              : 'border-gray-500', // Default state
+                ? 'border-red-500 bg-red-700/50'
+                : 'border-gray-500'
+              : 'border-gray-500',
           ]"
         >
           <div class="flex gap-4">

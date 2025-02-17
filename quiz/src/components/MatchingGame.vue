@@ -108,13 +108,15 @@ const resetGame = () => {
       </div>
     </div>
 
-    <div class="bg-white w-full flex-grow rounded-t-2xl mx-auto">
-      <div class="max-w-sm w-11/12 mx-auto flex flex-col justify-between gap-2">
+    <div class="bg-white w-full h-[43vh] flex-grow rounded-t-2xl mx-auto py-2">
+      <div
+        class="max-w-sm h-full w-11/12 mx-auto flex flex-col justify-between gap-2"
+      >
         <p class="text-zinc-800 text-center font-bold pt-2">
           Drag the Correct box to match the Question
         </p>
 
-        <div class="grid grid-cols-3 gap-4 relative z-20">
+        <div class="grid grid-cols-3 gap-4">
           <div
             v-for="item in answers"
             :key="item.id"
